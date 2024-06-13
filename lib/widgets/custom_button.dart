@@ -2,41 +2,56 @@ import 'package:flutter/material.dart';
 
 class CustomButton extends StatefulWidget {
   final String buttonText;
+  final VoidCallback callbackAction;
+  final Color? backgroundColor;
+  final Color? textColor;
 
-  const CustomButton({super.key, required this.buttonText});
+  const CustomButton({
+    super.key,
+    required this.buttonText,
+    required this.callbackAction,
+    this.backgroundColor,
+    this.textColor,
+  });
 
   @override
-  // ignore: library_private_types_in_public_api
-  _CustomButtonState createState() => _CustomButtonState();
+  CustomButtonState createState() => CustomButtonState();
 }
 
-class _CustomButtonState extends State<CustomButton> {
+class CustomButtonState extends State<CustomButton> {
   bool isPressed = false;
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        setState(() {
-          isPressed = !isPressed; // Toggle isPressed state
-        });
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white, // Change background color on press
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0), // Rounded corners
-          side: BorderSide(
-            color: isPressed ? Colors.purple : Colors.grey[300]!, // Border color changes on press
-            width: 4.0,
-          ),
-        ),
-      ),
-      child: SizedBox(
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: widget.callbackAction,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
         width: double.infinity,
+        decoration: BoxDecoration(
+          color:
+              widget.backgroundColor ?? const Color.fromARGB(255, 131, 35, 222),
+          borderRadius: BorderRadius.circular(8.0),
+          boxShadow: widget.backgroundColor == Colors.transparent
+              ? []
+              : [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    spreadRadius: 1,
+                    blurRadius: 2,
+                    offset: const Offset(0, 1),
+                  ),
+                ],
+        ),
         child: Center(
           child: Text(
             widget.buttonText,
-            style: const TextStyle(color: Colors.black),
+            style: TextStyle(
+              color: widget.textColor ?? Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
             textAlign: TextAlign.center,
           ),
         ),

@@ -1,6 +1,7 @@
-import 'package:cogniant/screens/first_screen.dart';
+import 'package:cogniant/screens/first_page.dart';
 import 'package:cogniant/screens/second_page.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,15 +10,19 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: FirstPage.id ,
+      theme: ThemeData(
+        textTheme: GoogleFonts.poppinsTextTheme(
+          Theme.of(context).textTheme,
+        ),
+      ),
+      initialRoute: FirstPage.id,
       routes: {
-        FirstPage.id: (context) => const  FirstPage(), 
-        SecondPage.id: (context) => SecondPage(), 
+        FirstPage.id: (context) => const FirstPage(),
+        SecondPage.id: (context) => const SecondPage(),
       },
     );
   }
